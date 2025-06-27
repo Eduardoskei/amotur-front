@@ -1,6 +1,5 @@
 "use client"
 import { useRef } from "react";
-import { Card } from "@heroui/card";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 
