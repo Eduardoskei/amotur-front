@@ -1,21 +1,29 @@
 'use client'
 import { useState } from "react"
-import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { withMask } from "use-mask-input"
-import {useForm} from "react-hook-form"
+import { EyeIcon, EyeOffIcon, Loader } from "lucide-react"
+import { useHookFormMask, withMask } from "use-mask-input"
+import {FieldValues, useForm} from "react-hook-form"
+import { ErrorMessage } from "@hookform/error-message"
+import axios from "axios"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function RegisterPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  const { handleSubmit, register } = useForm()
+  const { handleSubmit, register, formState: { isSubmitting, errors } } = useForm()
+  const registerWithMask = useHookFormMask(register)
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: FieldValues) {
     console.log('Form submitted')
     console.log(data)
 
-    const res = await fetch('', {method: 'POST'})
+    try {
+      const res = await axios.post("https://jsonplaceholder.typicode.com/posts", data)
+      console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -37,60 +45,91 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit(onSubmit)}
           className="w-full">
             {/* Nome */}
-            <div>
-              <label className="block mb-2 text-xl lg:text-lg">
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-xl lg:text-lg">
                 Nome
               </label>
               <input 
-                className="w-full h-14 text-md mb-4 border px-5 
+                className="w-full h-14 text-md border px-5 
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500"
                 type="text"
                 id="name"
-                {...register('name')}
-                name="name"
+                {...register('name', {
+                  required: 'O campo de nome precisa ser preenchido.',
+                  maxLength: {
+                    value: 255,
+                    message: "O nome deve conter no máximo 255 caracteres."
+                  }
+                })}
                 placeholder="Digite seu nome completo"
               />
+              <p className="text-base mt-1 text-red-400">
+                <ErrorMessage errors={errors} name="name"/>
+              </p>
             </div>
               {/* Email */}
-            <div>
-              <label className="block mb-2 text-xl lg:text-lg">
-                Email
+            <div className="mb-4">
+              <label htmlFor="email" className="block mb-2 text-xl lg:text-lg">
+                E-mail
               </label>
               <input
-                className="w-full h-14 text-md mb-4 border px-5 
+                className="w-full h-14 text-md border px-5 
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500"
                 type="email"
                 id="email"
-                {...register('email')}
+                {...register('email', {
+                  required: "O campo de e-mail precisa ser preenchido",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+                    message: "E-mail inválido."
+                  }
+                })}
                 placeholder="Digite seu email"
               />
+              <p className="text-base mt-1 text-red-400">
+                <ErrorMessage errors={errors} name="email"/>
+              </p>
             </div>
             {/* Telefone */}
-            <div>
-              <label className="block mb-2 text-xl lg:text-lg">
+            <div className="mb-4">
+              <label htmlFor="phone" className="block mb-2 text-xl lg:text-lg">
                 Telefone
               </label>
               <input 
-                className="w-full h-14 text-md mb-4 border px-5 
+                className="w-full h-14 text-md border px-5 
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500"
                 type="tel"
-                id="telephone"
-                {...register('telephone')}
+                id="phone"
+                {...registerWithMask('phone', ["(99) 99999-9999"], {
+                  required: "O campo de telefone precisa ser preenchido.",
+                  pattern: {
+                    value: /^\(?[1-9]{2}\)?\s?9[0-9]{4}-?[0-9]{4}$/,
+                    message: "Número inválido."
+                  }
+                })}
                 placeholder="Digite seu telefone"
-                ref={withMask("(99) 99999-9999")}
               />
+              <p className="text-base mt-1 text-red-400">
+                <ErrorMessage errors={errors} name="phone"/>
+              </p>
             </div>
             {/* Senha */}
-            <div className="relative">
-              <label className="block mb-2 text-xl lg:text-lg">
+            <div className="relative mb-4">
+              <label htmlFor="password" className="block mb-2 text-xl lg:text-lg">
                 Senha
               </label>
               <input 
-                className="w-full h-14 text-md mb-4 border px-5 
+                className="w-full h-14 text-md border px-5 
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500 pr-12"
                 type={isPasswordVisible ? 'text' : 'password'}
                 id="password"
-                {...register('password')}
+                {...register('password', {
+                  required: 'O campo de senha precisa estar preenchido.',
+                  minLength: {
+                    value: 8,
+                    message: "A senha deve conter no mínimo 8 caracteres."
+                  }
+                })}
                 placeholder="Crie sua senha"
               />
               <span className="absolute right-4 top-[54px]">
@@ -106,17 +145,34 @@ export default function RegisterPage() {
                   )}
                 </button>
               </span>
+              <p className="text-base mt-1 text-red-400">
+                <ErrorMessage errors={errors} name="password"/>
+              </p>
             </div>
-            <div className="relative">
-              <label className="block mb-2 text-xl lg:text-lg">
+            <div className="relative mb-11">
+              <label htmlFor="confirmedPassword" className="block mb-2 text-xl lg:text-lg">
                 Confirme a senha
               </label>
               <input 
-                className="w-full h-14 text-md mb-11 border px-5 
+                className="w-full h-14 text-md border px-5 
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500 pr-12"
                 type={isPasswordVisible ? 'text' : 'password'}
-                id="confirmPassword"
-                {...register('confirmPassword')}
+                id="confirmedPassword"
+                {...register('confirmedPassword', {
+                  required: 'O campo de confirmação de senha precisa estar preenchido.',
+                  minLength: {
+                    value: 8,
+                    message: "A senha deve conter no mínimo 8 caracteres."
+                  },
+                  validate(value, formValues) {
+                    console.log({ value, formValues })
+                    if(value === formValues.password) {
+                      return true
+                    } else {
+                      return "As senhas devem ser iguais."
+                    }
+                  }
+                })}
                 placeholder="Confirme sua senha"
               />
               <span className="absolute right-4 top-[54px]">
@@ -132,10 +188,15 @@ export default function RegisterPage() {
                   )}
                 </button>
               </span>
+              <p className="text-base mt-1 text-red-400">
+                <ErrorMessage errors={errors} name="confirmedPassword"/>
+              </p>
             </div>
-            <button className="w-full h-13 mb-4 bg-custom-blue text-xl lg:text-lg 
-            text-white py-2.5 px-5 lg:px-3 lg:py-1.5 rounded-lg cursor-pointer">
-              Cadastrar
+            <button className="w-full h-13 mb-4 bg-custom-blue disabled:bg-cyan-900 text-xl lg:text-lg 
+            text-white py-2.5 px-5 lg:px-3 lg:py-1.5 rounded-lg cursor-pointer transition duration-300
+            flex justify-center items-center"
+            disabled={isSubmitting}>
+              {isSubmitting ? (<Loader className="animate-spin"/>) : ('Cadastrar')}
             </button>
             </form>
             <p className="text-center">
