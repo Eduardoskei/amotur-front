@@ -1,5 +1,6 @@
 "use client"
 import { useRef } from "react";
+import { Card } from "@heroui/card";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 
@@ -94,10 +95,68 @@ export default function Home() {
       </div>
 
       {/* Mapa */}
-      <div>
+      <div className="w-full p-3 mb-10">
+        <div className="w-full h-100 bg-gray-100">
 
+        </div>
       </div>
 
+      {/* Legenda */}
+      <div className="flex justify-center items-center w-full p-3">
+        <div className="w-full flex flex-col text-lg p-6 bg-gray-50 rounded-lg shadow-lg">
+          <h1 className="font-bold text-2xl mb-2 text-center">Legenda</h1>
+          <Image
+            src={"/hotel-icon.png"}
+            alt=""
+            width={50}
+            height={50}
+          />
+          <p className="mb-10 font-semibold">
+            Hoteis 
+            <span className="font-medium"> - Estrutura completa de hospedagem com conforto, recepção e serviços.</span>
+          </p>
+          <Image
+            src={"/pousada-icon.png"}
+            alt=""
+            width={50}
+            height={50}
+          />
+          <p className="mb-10 font-semibold">
+            Pousadas 
+            <span className="font-medium"> - Opção aconchegante e familiar, ideal para quem busca tranquilidade.</span>
+          </p>
+          <Image
+            src={"/restaurante-icon.png"}
+            alt=""
+            width={50}
+            height={50}
+          />
+          <p className="mb-10 font-semibold">
+            Restaurantes 
+            <span className="font-medium"> - Locais para saborear a culinária regional e pratos variados.</span>
+          </p>
+          <Image
+            src={"/bar-icon.png"}
+            alt=""
+            width={50}
+            height={50}
+          />
+          <p className="mb-10 font-semibold">
+            Bares 
+            <span className="font-medium"> - Ambientes descontraídos para apreciar bebidas, petiscos e música local.</span>
+          </p>
+          <Image
+            src={"/ponto-turistico-icon.png"}
+            alt=""
+            width={50}
+            height={50}
+          />
+          <p className="mb-10 font-semibold">
+            Pontos Turísticos 
+            <span className="font-medium"> - Atrações imperdíveis com valor cultural, histórico ou natural.</span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
