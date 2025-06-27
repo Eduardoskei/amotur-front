@@ -2,6 +2,12 @@
 import { useRef } from "react";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("@/components/Map"), {
+  ssr: false  ,
+  loading: () => <p>Carregando mapa...</p>,
+});
 
 export default function Home() {
   const popUp1 = useRef<HTMLDialogElement | null>(null);
@@ -96,7 +102,7 @@ export default function Home() {
       {/* Mapa */}
       <div className="w-full p-3 mb-10">
         <div className="w-full h-100 bg-gray-100">
-
+          <Map/>
         </div>
       </div>
 
