@@ -12,6 +12,7 @@ const Map = dynamic(() => import("@/components/Map"), {
 export default function Home() {
   const popUp1 = useRef<HTMLDialogElement | null>(null);
   const popUp2 = useRef<HTMLDialogElement | null>(null);
+  const popUp3 = useRef<HTMLDialogElement | null>(null);
 
   const openModal1 = () => popUp1.current?.showModal();
   const closeModal1 = () => popUp1.current?.close();
@@ -19,10 +20,13 @@ export default function Home() {
   const openModal2 = () => popUp2.current?.showModal();
   const closeModal2 = () => popUp2.current?.close();
 
+  const openModal3 = () => popUp2.current?.showModal();
+  const closeModal3 = () => popUp2.current?.close();
+
   return (
     <div className="h-screen font-instrument-sans">
       <NavBar/>
-      <div className="relative w-screen h-[140px] sm:h-[240px]">
+      <div className="relative h-[140px] sm:h-[240px]">
         <Image
           src={"/praia.jpg"}
           alt="praia"
@@ -31,12 +35,12 @@ export default function Home() {
         />
       </div>
 
-        <div className="flex justify-self-center mt-5 p-10 w-full justify-between items-center">
+      <div className="flex justify-self-center my-5 p-2 sm:p-10 w-full justify-between items-center">
         {/* Instruções */}
         <button
           onClick={openModal1}
           className="bg-custom-blue border 
-                border-cyan-700 text-white h-10 w-30 text-xl px-2.5 py-1.5 rounded-lg 
+                border-cyan-700 text-white h-10 text-lg w-30 sm:text-xl px-2.5 py-1.5 rounded-lg 
                 hover:scale-105 hover:shadow-lg cursor-pointer transition duration-300"
         >
           Instruções
@@ -65,50 +69,20 @@ export default function Home() {
           </button>
         </dialog>
 
-        {/* Guia */}
+        {/* Legenda */}
         <button
           onClick={openModal2}
           className="bg-custom-blue border 
-                border-cyan-700 text-white h-10 w-30 text-xl px-2.5 py-1.5 rounded-lg 
+                border-cyan-700 text-white h-10 w-30 text-lg sm:text-xl px-2.5 py-1.5 rounded-lg 
                 hover:scale-105 hover:shadow-lg cursor-pointer transition duration-300"
         >
-          Guia
+          Legenda
         </button>
-        <dialog
+        <dialog 
           ref={popUp2}
           className="justify-self-center self-center 
                 w-3/4 lg:w-1/2 px-10 py-6 rounded-2xl shadow-2xl backdrop:bg-dialog-backdrop"
         >
-          <h2 className="text-center font-bold text-2xl mb-4">
-            Interagindo com os ícones
-          </h2>
-          <p className="text-lg mb-4">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
-            laudantium illo amet voluptatibus aspernatur pariatur, deleniti
-            autem fugiat modi explicabo placeat nemo exercitationem commodi
-            officiis suscipit adipisci eos eveniet magni!
-          </p>
-          <button
-            onClick={closeModal2}
-            className="bg-custom-blue border 
-                    border-cyan-700 text-white text-lg px-2 py-1 rounded-lg 
-                    hover:scale-105 hover:shadow-lg cursor-pointer transition duration-300"
-          >
-            Fechar
-          </button>
-        </dialog>
-      </div>
-
-      {/* Mapa */}
-      <div className="w-full p-3 mb-10">
-        <div className="w-full h-100 bg-gray-100">
-          <Map/>
-        </div>
-      </div>
-
-      {/* Legenda */}
-      <div className="flex justify-center items-center w-full p-3">
-        <div className="w-full flex flex-col text-lg p-6 bg-gray-50 rounded-lg shadow-lg">
           <h1 className="font-bold text-2xl mb-2 text-center">Legenda</h1>
           <Image
             src={"/hotel-icon.png"}
@@ -160,6 +134,54 @@ export default function Home() {
             Pontos Turísticos 
             <span className="font-medium"> - Atrações imperdíveis com valor cultural, histórico ou natural.</span>
           </p>
+          <button
+            onClick={closeModal2}
+            className="bg-custom-blue border 
+                    border-cyan-700 text-white text-lg px-2 py-1 rounded-lg 
+                    hover:scale-105 hover:shadow-lg cursor-pointer transition duration-300"
+          >
+            Fechar
+          </button>
+        </dialog>
+
+        {/* Guia */}
+        <button
+          onClick={openModal3}
+          className="bg-custom-blue border 
+                border-cyan-700 text-white h-10 w-30 text-lg sm:text-xl px-2.5 py-1.5 rounded-lg 
+                hover:scale-105 hover:shadow-lg cursor-pointer transition duration-300"
+        >
+          Guia
+        </button>
+        <dialog
+          ref={popUp3}
+          className="justify-self-center self-center 
+                w-3/4 lg:w-1/2 px-10 py-6 rounded-2xl shadow-2xl backdrop:bg-dialog-backdrop"
+        >
+          <h2 className="text-center font-bold text-2xl mb-4">
+            Interagindo com os ícones
+          </h2>
+          <p className="text-lg mb-4">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
+            laudantium illo amet voluptatibus aspernatur pariatur, deleniti
+            autem fugiat modi explicabo placeat nemo exercitationem commodi
+            officiis suscipit adipisci eos eveniet magni!
+          </p>
+          <button
+            onClick={closeModal3}
+            className="bg-custom-blue border 
+                    border-cyan-700 text-white text-lg px-2 py-1 rounded-lg 
+                    hover:scale-105 hover:shadow-lg cursor-pointer transition duration-300"
+          >
+            Fechar
+          </button>
+        </dialog>
+      </div>
+
+      {/* Mapa */}
+      <div className="w-full mb-10">
+        <div className="w-full h-240 bg-gray-100">
+          <Map/>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export default function NavBar(props: Props) {
   if (logoOnly) {
     return (
       <Navbar shouldHideOnScroll
-      className="p-3 bg-white">
+      className="px-3 py-3 bg-white">
         <Image
           className="mr-6 sm:mr-10"
           src={"https://lirp.cdn-website.com/3b6c9aee/dms3rep/multi/opt/logo-amotur+%282%29-1920w.png"}
@@ -31,7 +31,7 @@ export default function NavBar(props: Props) {
           width={130}
           height={20}
         />
-        <NavbarContent className="flex gap-4 text-lg sm:gap-25" justify="end">
+        <NavbarContent className="flex gap-4 text-lg sm:gap-20" justify="end">
           <NavbarItem>
             <Link color="foreground" href="#">
               Sobre

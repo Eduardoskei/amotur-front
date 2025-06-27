@@ -86,31 +86,6 @@ const places:MapInfo[] = [
     instagram: "@restaurantehibisco"
   },
   {
-    id: "4",
-    name: "Pousada Brisa del Mar",
-    typePlace: "Pousada",
-    latitude: -3.0365,
-    longitude: -39.6672,
-    whatsapp: "(85) 99999-1010",
-    website: "https://brisadelmar.com"
-  },
-  {
-    id: "5",
-    name: "Restaurante Moinho dos Ventos",
-    typePlace: "Restaurante",
-    latitude: -3.0371,
-    longitude: -39.6676,
-    whatsapp: "(85) 99999-1011"
-  },
-  {
-    id: "6",
-    name: "Pousada Villa Mango",
-    typePlace: "Pousada",
-    latitude: -3.0362,
-    longitude: -39.6670,
-    whatsapp: "(85) 99999-1012"
-  },
-  {
     id: "7",
     name: "Pousada Canaã Icaraizinho",
     typePlace: "Pousada",
@@ -118,15 +93,6 @@ const places:MapInfo[] = [
     longitude: -39.6655,
     whatsapp: "(85) 99999-1013",
     website: "https://pousadacanaa.com.br"
-  },
-  {
-    id: "8",
-    name: "Umami Restaurant & Residence",
-    typePlace: "Restaurante",
-    latitude: -3.0375,
-    longitude: -39.6678,
-    whatsapp: "(85) 99999-1014",
-    instagram: "@umamirestaurant"
   },
   {
     id: "9",
