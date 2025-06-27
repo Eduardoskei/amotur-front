@@ -1,5 +1,15 @@
+@font-face {
+  font-family: InstrumentSans;
+  src: url("../assets/fonts/InstrumentSans-Regular.ttf");
+}
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@theme {
+  --color-custom-blue: #4E668B;
+  --color-dialog-backdrop: rgba(0, 0, 0, 0.3);
+  --font-instrument-sans: InstrumentSans;
+}
 
 @custom-variant dark (&:is(.dark *));
 
