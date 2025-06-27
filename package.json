@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.0-beta.10",
+    "@heroui/theme": "^2.4.17",
+    "@radix-ui/react-navigation-menu": "^1.2.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.523.0",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.3.1"
+    "react-hook-form": "^7.58.1",
+    "tailwind-merge": "^3.3.1",
+    "use-mask-input": "^3.4.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
