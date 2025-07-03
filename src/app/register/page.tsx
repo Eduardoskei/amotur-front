@@ -37,10 +37,9 @@ export default function RegisterPage() {
               className="mb-2"
               src={"https://lirp.cdn-website.com/3b6c9aee/dms3rep/multi/opt/logo-amotur+%282%29-1920w.png"}
               alt="amotur-logo"
-              width={110}
+              width={150}
               height={20}
             />
-            Cadastro de Turista
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}
           className="w-full">
