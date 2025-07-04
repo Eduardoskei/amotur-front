@@ -16,11 +16,20 @@ export default function Home() {
         {
           label: "Sobre",
           href: "#" 
+        },
+        {
+          label: "Sair",
+          href: "#" 
         }
       ]}/>
-      <div className="flex flex-col w-full min-h-[calc(100vh-80px)]">
-        <Filter/>
-        <div></div>
+      <div className="grid grid-cols-1 md:grid-cols-[375px_1fr]">
+        <div className="hidden p-4 md:flex bg-[#98A2B2]">
+          <Filter/>
+        </div>
+        <div className="flex justify-center items-center h-[calc(100vh-96px)] 
+        md:h-[calc(100vh-80px)] w-full">
+          <p>Mapa</p>
+        </div>
       </div>
     </div>
   )
