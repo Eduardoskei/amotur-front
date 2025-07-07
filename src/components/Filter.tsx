@@ -1,15 +1,20 @@
-import SearchBar from "./SearchBar"
+import { Search } from "lucide-react"
 
 export default function Filter() {
   return (
     <div>
 
-      <SearchBar/>      
+      <div className="relative flex items-center mb-12">
+        <Search className="absolute left-3 text-gray-600"/>
+        <input type="text" placeholder="Buscar..."
+        className="w-full py-4 pl-12 pr-10 text-lg border border-[rgba(0, 0, 0, 0.5)]
+        rounded-lg bg-white"/>
+      </div>     
 
       <div className="grid grid-cols-3 gap-8 font-[550] z-10
     bg-white rounded-lg px-4 py-6 text-base sm:[640px]">
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
           <span>Hoteis</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#D62B2B] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} 
@@ -19,7 +24,7 @@ export default function Filter() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
           <span>Restaurantes</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#2BD0D6] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 32 32">
@@ -29,7 +34,7 @@ export default function Filter() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
           <span>Pousadas</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#52DA37] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
@@ -38,7 +43,7 @@ export default function Filter() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
           <span>Bares</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#FFE900] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">

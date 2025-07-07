@@ -26,7 +26,7 @@ export default function Home() {
         <div className="hidden p-4 md:flex bg-[#98A2B2]">
           <Filter/>
         </div>
-        <div className="flex justify-center items-center h-[calc(100vh-96px)] 
+        <div className="h-[calc(100vh-96px)] 
         md:h-[calc(100vh-80px)] w-full">
           <p>Mapa</p>
         </div>
