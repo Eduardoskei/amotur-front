@@ -4,27 +4,54 @@ import { EyeIcon, EyeOffIcon, Loader } from "lucide-react"
 import { useHookFormMask, withMask } from "use-mask-input"
 import {FieldValues, useForm} from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
+import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import Image from "next/image"
 import Link from "next/link"
+import { userRegisterSchema } from "../userRegisterSchema"
+import type { UserRegister } from "../userRegisterSchema"
 
 export default function RegisterPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  const { handleSubmit, register, formState: { isSubmitting, errors } } = useForm()
+  const { 
+    handleSubmit,
+    register,
+    reset,
+    setError, 
+    formState: { isSubmitting, errors } 
+  } = useForm<UserRegister>({resolver: zodResolver(userRegisterSchema)})
+
   const registerWithMask = useHookFormMask(register)
 
-  async function onSubmit(data: FieldValues) {
-    console.log('Form submitted')
-    console.log(data)
+  async function onSubmit(data: UserRegister) {
 
     try {
-      const res = await axios.post("https://jsonplaceholder.typicode.com/posts", data)
-      console.log(res.data)
-    } catch (error) {
-      console.log(error)
+      const { passwordConfirmation, ...dataToSend } = data
+      const res = await axios.post("http://localhost:3000/users/register", dataToSend)
+      console.log('Usuário cadastrado com sucesso:', res.data)
+      reset()
+    } 
+    catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        const resData = error.response.data
+
+        if (resData.errors) {
+          for (const field in resData.errors) {
+            setError(field as keyof UserRegister, {
+              type: 'manual',
+              message: resData.errors[field],
+            })
+          }
+        }
+
+        console.log('Erro ao cadastrar usuário:', resData)
+      } else {
+        console.log('Erro inesperado:', error)
+      }
     }
   }
+
 
   return (
     <div>
@@ -53,13 +80,7 @@ export default function RegisterPage() {
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500"
                 type="text"
                 id="name"
-                {...register('name', {
-                  required: 'O campo de nome precisa ser preenchido.',
-                  maxLength: {
-                    value: 255,
-                    message: "O nome deve conter no máximo 255 caracteres."
-                  }
-                })}
+                {...register('name')}
                 placeholder="Digite seu nome completo"
               />
               <p className="text-base mt-1 text-red-400">
@@ -76,13 +97,7 @@ export default function RegisterPage() {
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500"
                 type="email"
                 id="email"
-                {...register('email', {
-                  required: "O campo de e-mail precisa ser preenchido",
-                  pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-                    message: "E-mail inválido."
-                  }
-                })}
+                {...register('email')}
                 placeholder="Digite seu email"
               />
               <p className="text-base mt-1 text-red-400">
@@ -99,13 +114,7 @@ export default function RegisterPage() {
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500"
                 type="tel"
                 id="phone"
-                {...registerWithMask('phone', ["(99) 99999-9999"], {
-                  required: "O campo de telefone precisa ser preenchido.",
-                  pattern: {
-                    value: /^\(?[1-9]{2}\)?\s?9[0-9]{4}-?[0-9]{4}$/,
-                    message: "Número inválido."
-                  }
-                })}
+                {...registerWithMask('phone', ["(99) 99999-9999"])}
                 placeholder="Digite seu telefone"
               />
               <p className="text-base mt-1 text-red-400">
@@ -122,13 +131,7 @@ export default function RegisterPage() {
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500 pr-12"
                 type={isPasswordVisible ? 'text' : 'password'}
                 id="password"
-                {...register('password', {
-                  required: 'O campo de senha precisa estar preenchido.',
-                  minLength: {
-                    value: 8,
-                    message: "A senha deve conter no mínimo 8 caracteres."
-                  }
-                })}
+                {...register('password')}
                 placeholder="Crie sua senha"
               />
               <span className="absolute right-4 top-[54px]">
@@ -148,7 +151,7 @@ export default function RegisterPage() {
                 <ErrorMessage errors={errors} name="password"/>
               </p>
             </div>
-            <div className="relative mb-11">
+            <div className="relative mb-8">
               <label htmlFor="confirmedPassword" className="block mb-2 text-xl lg:text-lg">
                 Confirme a senha
               </label>
@@ -156,22 +159,8 @@ export default function RegisterPage() {
                 className="w-full h-14 text-md border px-5 
                 py-2.5 lg:px-3 lg:py-1.5 rounded-lg placeholder-gray-500 pr-12"
                 type={isPasswordVisible ? 'text' : 'password'}
-                id="confirmedPassword"
-                {...register('confirmedPassword', {
-                  required: 'O campo de confirmação de senha precisa estar preenchido.',
-                  minLength: {
-                    value: 8,
-                    message: "A senha deve conter no mínimo 8 caracteres."
-                  },
-                  validate(value, formValues) {
-                    console.log({ value, formValues })
-                    if(value === formValues.password) {
-                      return true
-                    } else {
-                      return "As senhas devem ser iguais."
-                    }
-                  }
-                })}
+                id="passwordConfirmation"
+                {...register('passwordConfirmation')}
                 placeholder="Confirme sua senha"
               />
               <span className="absolute right-4 top-[54px]">
@@ -188,7 +177,7 @@ export default function RegisterPage() {
                 </button>
               </span>
               <p className="text-base mt-1 text-red-400">
-                <ErrorMessage errors={errors} name="confirmedPassword"/>
+                <ErrorMessage errors={errors} name="passwordConfirmation"/>
               </p>
             </div>
             <button className="w-full h-13 mb-4 bg-custom-blue disabled:bg-cyan-900 text-xl lg:text-lg 

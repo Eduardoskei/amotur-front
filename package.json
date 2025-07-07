@@ -12,6 +12,7 @@
     "@heroui/react": "^2.8.0-beta.10",
     "@heroui/theme": "^2.4.17",
     "@hookform/error-message": "^2.0.1",
+    "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-navigation-menu": "^1.2.13",
     "axios": "^1.10.0",
     "class-variance-authority": "^0.7.1",
@@ -22,7 +23,8 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.59.0",
     "tailwind-merge": "^3.3.1",
-    "use-mask-input": "^3.4.2"
+    "use-mask-input": "^3.4.2",
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
