@@ -1,5 +1,5 @@
+"use client"
 import NavBar from "@/components/NavBar";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import Filter from "@/components/Filter";
 const Map = dynamic(() => import("@/components/Map"), {
@@ -35,7 +35,7 @@ export default function Home() {
         </div>
         <div className="h-[calc(100vh-96px)] 
         md:h-[calc(100vh-80px)] w-full">
-          <p>Mapa</p>
+          <Map/>
         </div>
       </div>
     </div>

@@ -59,7 +59,7 @@ export default function NavBar({ links }: NavBarContents) {
 
       {showMenu && (
           <div className={`fixed md:hidden top-20 left-0 w-full h-full 
-          bg-white flex flex-col gap-24 px-4 z-40 ${isMenuOpen ? "animate-slide-down" : "animate-slide-up"}`}>
+          bg-white flex flex-col gap-24 px-4 z-1000 ${isMenuOpen ? "animate-slide-down" : "animate-slide-up"}`}>
 
             <ul className="flex flex-col gap-8 text-[22px] mt-12">
               {links.map((link, index) => (
