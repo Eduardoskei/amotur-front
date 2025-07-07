@@ -1,7 +1,15 @@
 import NavBar from "@/components/NavBar";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("@/components/Map"), {
+  ssr: false  ,
+  loading: () => <p>Carregando mapa...</p>,
+});
 import Filter from "@/components/Filter";
 
 export default function Home() {
+  
   return (
     <div className="w-full h-full absolute font-poppins">
       <NavBar links={[
