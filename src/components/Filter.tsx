@@ -1,6 +1,32 @@
 import { Search } from "lucide-react"
+import { useState } from "react";
+import { places, MapInfo, PointsType } from "@/data/place";
+
 
 export default function Filter() {
+  const [tipoSelecionado, setTipoSelecionado] = useState<PointsType[]>([]);
+  const [praiasSelecionadas, setPraiasSelecionadas] = useState<string[]>([]);
+
+  const toggleFiltro = <T,>(item: T, lista: T[], setLista: (nova: T[]) => void) => {
+    setLista(
+      lista.includes(item) ? lista.filter((i) => i !== item) : [...lista, item]
+    );
+  };
+
+  const locaisFiltrados: MapInfo[] = places.filter((place) => {
+  if (tipoSelecionado.length === 0 && praiasSelecionadas.length === 0) {
+    return true;
+  }
+
+  const matchTipo =
+    tipoSelecionado.length === 0 || tipoSelecionado.includes(place.typePlace);
+
+  const matchPraia =
+    praiasSelecionadas.length === 0 || praiasSelecionadas.includes(place.beach);
+
+  return matchTipo && matchPraia;
+  });
+
   return (
     <div>
 
@@ -11,10 +37,13 @@ export default function Filter() {
         rounded-lg bg-white"/>
       </div>     
 
-      <div className="grid grid-cols-3 gap-8 font-[550] z-10
+      {/* <div className="grid grid-cols-3 gap-8 font-[550] z-10
     bg-white rounded-lg px-4 py-6 text-base sm:[640px]">
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer"
+        onClick={() =>
+                toggleFiltro("Hotel" as PointsType, tipoSelecionado, setTipoSelecionado)
+              }>
           <span>Hoteis</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#D62B2B] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} 
@@ -24,7 +53,10 @@ export default function Filter() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer"
+        onClick={() =>
+                toggleFiltro("Restaurante" as PointsType, tipoSelecionado, setTipoSelecionado)
+              }>
           <span>Restaurantes</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#2BD0D6] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 32 32">
@@ -34,7 +66,10 @@ export default function Filter() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer"
+        onClick={() =>
+                toggleFiltro("Pousada" as PointsType, tipoSelecionado, setTipoSelecionado)
+              }>
           <span>Pousadas</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#52DA37] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
@@ -43,7 +78,10 @@ export default function Filter() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer">
+        <div className="flex flex-col-reverse gap-3 items-center w-full cursor-pointer"
+        onClick={() =>
+                toggleFiltro("Bar" as PointsType, tipoSelecionado, setTipoSelecionado)
+              }>
           <span>Bares</span>
           <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#FFE900] rounded-[50%]">
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
@@ -52,7 +90,7 @@ export default function Filter() {
           </div>
         </div>
         
-      </div>
+      </div> */}
     </div>
   )
 }
