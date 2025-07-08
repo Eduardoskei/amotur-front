@@ -1,19 +1,44 @@
 "use client"
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import Filter from "./Filter"
+import { places, MapInfo, PointsType } from "@/data/place";
 import { Menu } from "lucide-react"
+import { Filter } from "./Filter";
 
 type NavBarContents = {
   links: {
   label: string;
   href: string;
-  }[]
+  }[],
+  onFilterChange: (locaisFiltrados: MapInfo[]) => void
 }
 
-export default function NavBar({ links }: NavBarContents) {
+export default function NavBar({ links, onFilterChange }: NavBarContents) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
+
+  const [tipoSelecionado, setTipoSelecionado] = useState<PointsType[]>([]);
+  const [praiasSelecionadas, setPraiasSelecionadas] = useState<string[]>([]);
+
+  const toggleFiltro = <T,>(item: T, lista: T[], setLista: (nova: T[]) => void) => {
+    setLista(
+      lista.includes(item) ? lista.filter((i) => i !== item) : [...lista, item]
+    );
+  };
+
+  const locaisFiltrados: MapInfo[] = places.filter((place) => {
+  if (tipoSelecionado.length === 0 && praiasSelecionadas.length === 0) {
+    return true;
+  }
+
+  const matchTipo =
+    tipoSelecionado.length === 0 || tipoSelecionado.includes(place.typePlace);
+
+  const matchPraia =
+    praiasSelecionadas.length === 0 || praiasSelecionadas.includes(place.beach);
+
+  return matchTipo && matchPraia;
+  });
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -59,9 +84,9 @@ export default function NavBar({ links }: NavBarContents) {
 
       {showMenu && (
           <div className={`fixed md:hidden top-20 left-0 w-full h-full 
-          bg-white flex flex-col gap-24 px-4 z-1000 ${isMenuOpen ? "animate-slide-down" : "animate-slide-up"}`}>
+          bg-white flex flex-col px-4 z-10000 ${isMenuOpen ? "animate-slide-down" : "animate-slide-up"}`}>
 
-            <ul className="flex flex-col gap-8 text-[22px] mt-12">
+            <ul className="flex flex-col gap-8 text-[22px] mt-12 mb-4">
               {links.map((link, index) => (
                 <li key={index}>
                   <a href={link.href}>{link.label}</a>
@@ -69,7 +94,7 @@ export default function NavBar({ links }: NavBarContents) {
               ))}
             </ul>
             
-            <Filter/>
+            <Filter onFilterChange={onFilterChange}/>
           </div>
         )}
     </>
