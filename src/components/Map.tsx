@@ -56,17 +56,13 @@ export default function Map({ places }: { places: MapInfo[] }) {
         >
           <Popup closeButton={false} keepInView={true}>
             <PopupMap
-              images={[
-                "https://www.villamango.com.br/wp-content/uploads/2024/09/2.jpg",
-                "https://www.temporadalivre.com/uploads/editor/pictures/b7ce1912d263/content_Icaraizinho-Luftansicht-vom-Strand_608x404-ID2090474-7c173b0b80dbecd9434e659f2e45e643.jpg",
-                "https://media-cdn.tripadvisor.com/media/photo-s/15/a4/56/d0/de-praia-brasil.jpg",
-              ]}
+              images={info.images}
               name={info.name}
-              whatsapp={info.whatsApp}
-              phone={info.phone}
-              email={info.email}
-              instagram={info.instagram}
-              website={info.website}
+              whatsapp={info.contact.whatsApp}
+              phone={info.contact.phone}
+              email={info.contact.email}
+              instagram={info.contact.instagram}
+              website={info.contact.website}
             />
           </Popup>
         </Marker>
