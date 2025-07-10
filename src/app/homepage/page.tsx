@@ -45,7 +45,7 @@ export default function Home() {
     tipoSelecionado.length === 0 || tipoSelecionado.includes(place.typePlace);
 
   const matchPraia =
-    praiasSelecionadas.length === 0 || praiasSelecionadas.includes(place.beach);
+    praiasSelecionadas.length === 0 || praiasSelecionadas.includes(place.praia);
 
   return matchTipo && matchPraia;
   });
@@ -85,11 +85,11 @@ export default function Home() {
       bg-white rounded-lg px-3 py-4 text-[14px] sm:[640px] mb-4">
 
             <div className={`flex flex-col-reverse gap-3 items-center w-full cursor-pointer rounded-lg border-2 p-2 ${
-              praiasSelecionadas.includes("Icaraí") ?
+              praiasSelecionadas.includes("Icarai") ?
               "border-[#4D658A]" : "border-transparent"
             }`}
             onClick={() =>
-                    toggleFiltro("Icaraí", praiasSelecionadas, setPraiasSelecionadas)
+                    toggleFiltro("Icarai", praiasSelecionadas, setPraiasSelecionadas)
                   }>
               <span>Icaraí</span>
               <div className="flex mx-auto justify-center items-center w-10 h-10 bg-[#4D658A] rounded-[50%]">

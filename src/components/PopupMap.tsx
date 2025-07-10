@@ -64,7 +64,7 @@ export function PopupMap({
         )}
 
         {phone && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <Image src="https://cdn-icons-png.flaticon.com/512/10797/10797331.png" width={15} height={15} alt="Phone Icon" className="mt-1"/>
             {phone}
           </div>
@@ -80,14 +80,14 @@ export function PopupMap({
         {instagram && (
           <div className="flex items-center gap-2">
             <Image src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width={15} height={15} alt="Instagram Icon" className="mt-1"/>
-            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Instagram</a>
+            <a href={instagram.startsWith('http') ? instagram : `https://www.instagram.com/${instagram.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Instagram</a>
           </div>
         )}
 
         {website && (
           <div className="flex items-center gap-2">
             <Image src="https://cdn-icons-png.flaticon.com/512/4116/4116480.png" width={15} height={15} alt="Website Icon" className="mt-1"/>
-            <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Web Site</a>
+            <a href={website.startsWith('http') ? website : `https://${website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Web Site</a>
           </div>
         )}
       </div>

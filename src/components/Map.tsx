@@ -98,7 +98,7 @@ export default function Map({ places }: { places: MapInfo[] }) {
           position={formPosition}
           icon={
             new L.Icon({
-              iconUrl:"https://cdn-icons-png.flaticon.com/512/684/684908.png",
+              iconUrl:"https://cdn-icons-png.flaticon.com/512/2776/2776000.png",
               iconSize:[40, 40],
             })
           }
