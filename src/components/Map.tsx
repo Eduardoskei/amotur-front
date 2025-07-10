@@ -48,25 +48,29 @@ export default function Map({ places }: { places: MapInfo[] }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
-      {places.map((info) => (
-        <Marker
-          key={info.id}
-          position={[parseFloat(info.latitude), parseFloat(info.longitude)]}
-          icon={mapIcon[info.typePlace]}
-        >
-          <Popup closeButton={false} keepInView={true}>
-            <PopupMap
-              images={info.images}
-              name={info.name}
-              whatsapp={info.contact.whatsApp}
-              phone={info.contact.phone}
-              email={info.contact.email}
-              instagram={info.contact.instagram}
-              website={info.contact.website}
-            />
-          </Popup>
-        </Marker>
-      ))}
+      {places.map((info) => {
+        const contacts = typeof info.contacts === 'string' ? JSON.parse(info.contacts) : info.contacts;
+
+        return (
+          <Marker
+            key={info.id}
+            position={[parseFloat(info.latitude), parseFloat(info.longitude)]}
+            icon={mapIcon[info.typePlace]}
+          >
+            <Popup closeButton={false} keepInView={true}>
+              <PopupMap
+                images={info.imagens}
+                name={info.name}
+                whatsapp={contacts.whatsApp}
+                phone={contacts.phone}
+                email={contacts.email}
+                instagram={contacts.instagram}
+                website={contacts.website}
+              />
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 }

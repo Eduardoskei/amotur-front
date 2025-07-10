@@ -28,7 +28,7 @@ export function PopupMap({
   return (
     <div className="bg-[#fcf7ee] p-6 rounded-3xl w-[420px] relative font-sans text-neutral-800 shadow-lg">
       
-      {images.length > 0 && (
+      {images?.length > 0 && (
         <div className="w-full h-52 mb-4 rounded-xl overflow-hidden">
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}

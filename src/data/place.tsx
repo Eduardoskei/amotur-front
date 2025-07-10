@@ -9,13 +9,13 @@ export type MapInfo = {
   latitude: string;
   longitude: string;
   contacts: {
-    whatsApp: string
+    whatsApp: string;
     email?: string;
     phone?: string;
     instagram?: string;
     website?: string;
   };
-  images: string[];
+  imagens: string[];
   beach: string;
 };
 
