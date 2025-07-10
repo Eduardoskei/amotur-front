@@ -1,12 +1,14 @@
 "use client";
 
-import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, Popup, useMapEvent } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import L from "leaflet";
 import { PopupMap } from "./PopupMap";
 import { MapInfo, PointsType } from "@/data/place";
+import { useState } from "react";
+import RegisterPlace from "./RegisterPlace";
 
 const mapIcon: Record<PointsType, L.Icon> = {
   Restaurante: new L.Icon({
@@ -35,7 +37,24 @@ const mapIcon: Record<PointsType, L.Icon> = {
   }),
 };
 
+type positionProps = {
+  setFormPosition: (position: [number,number]) => void
+}
+
+function ShowPlaceFormOnClick({setFormPosition}: positionProps) {
+  useMapEvent("click", (e)=>{
+
+    const position: [number, number] = [e.latlng.lat, e.latlng.lng]
+     setFormPosition(position)
+  })
+
+  return null;
+}
+
 export default function Map({ places }: { places: MapInfo[] }) {
+  
+  const [formPosition, setFormPosition] = useState<[number,number] | null>(null)
+  
   return (
     <MapContainer
       center={[-3.036872, -39.668872]}
@@ -48,6 +67,7 @@ export default function Map({ places }: { places: MapInfo[] }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
+      
       {places.map((info) => {
         const contacts = typeof info.contacts === 'string' ? JSON.parse(info.contacts) : info.contacts;
 
@@ -71,6 +91,27 @@ export default function Map({ places }: { places: MapInfo[] }) {
           </Marker>
         );
       })}
+      <ShowPlaceFormOnClick setFormPosition={setFormPosition}/>
+
+      {formPosition && (
+        <Marker
+          position={formPosition}
+          icon={
+            new L.Icon({
+              iconUrl:"https://cdn-icons-png.flaticon.com/512/684/684908.png",
+              iconSize:[40, 40],
+            })
+          }
+        >
+          <Popup closeButton={false}>
+            <div onClick={(e) => e.stopPropagation()}>
+              <RegisterPlace
+              lat={formPosition[0]} 
+              lng={formPosition[1]}/>
+            </div>
+          </Popup>
+        </Marker>
+      )}  
     </MapContainer>
   );
 }
