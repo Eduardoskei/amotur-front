@@ -18,7 +18,7 @@ export type MapInfo = {
     website?: string;
   };
   imagens: string[];
-  beach: string;
+  praia: string;
 };
 
 export type PostPlaces = {
