@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import Image from "next/image"
 import Link from "next/link"
-import { userRegisterSchema } from "../userRegisterSchema"
-import type { UserRegister } from "../userRegisterSchema"
+import { userRegisterSchema } from "../../services/userRegisterSchema"
+import type { UserRegister } from "../../services/userRegisterSchema"
 
 export default function RegisterPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)

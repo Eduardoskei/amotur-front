@@ -11,6 +11,7 @@
   "dependencies": {
     "@heroui/react": "^2.8.0-beta.10",
     "@hookform/error-message": "^2.0.1",
+    "@hookform/resolvers": "^5.1.1",
     "axios": "^1.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -25,7 +26,8 @@
     "react-spinners": "^0.17.0",
     "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.1",
-    "use-mask-input": "^3.4.2"
+    "use-mask-input": "^3.4.2",
+    "zod": "^4.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
