@@ -4,7 +4,7 @@ import { MapInfo } from "@/data/place";
 
 {/* GET */}
 export const getPlaces = async () => {
-    const response = await axios.get<MapInfo>('http://localhost:3000/places');
+    const response = await axios.get<MapInfo[]>('http://localhost:3000/places');
     console.log(response.data)
     return response.data
 }

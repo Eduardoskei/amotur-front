@@ -37,30 +37,26 @@ const mapIcon: Record<PointsType, L.Icon> = {
   }),
 };
 
-export default function Map({ places }: { places: MapInfo[] }) {
-type positionProps = {
-  setFormPosition: (position: [number,number]) => void
+type PositionProps = { 
+  setFormPosition: (position: [number, number]) => void
 }
 
-function ShowPlaceFormOnClick({setFormPosition}: positionProps) {
-  useMapEvent("click", (e)=>{
-
-    const position: [number, number] = [e.latlng.lat, e.latlng.lng]
-     setFormPosition(position)
-  })
-
+function ShowPlaceFormOnClick({ setFormPosition }: PositionProps) {
+  useMapEvent("click", (e) => {
+    const position: [number, number] = [e.latlng.lat, e.latlng.lng];
+    setFormPosition(position);
+  });
   return null;
 }
 
 export default function Map({ places }: { places: MapInfo[] }) {
-  
-  const [formPosition, setFormPosition] = useState<[number,number] | null>(null)
-  
+  const [formPosition, setFormPosition] = useState<[number, number] | null>(null);
+
   return (
     <MapContainer
       center={[-3.036872, -39.668872]}
       zoom={10}
-      minZoom={13}
+      minZoom={13} 
       scrollWheelZoom={true}
       className="h-full w-full"
     >
@@ -68,8 +64,9 @@ export default function Map({ places }: { places: MapInfo[] }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
-      
+
       {places.map((info) => {
+
         const contacts = typeof info.contacts === 'string' ? JSON.parse(info.contacts) : info.contacts;
 
         return (
@@ -82,37 +79,40 @@ export default function Map({ places }: { places: MapInfo[] }) {
               <PopupMap
                 images={info.imagens}
                 name={info.name}
-                whatsapp={contacts.whatsApp}
-                phone={contacts.phone}
-                email={contacts.email}
-                instagram={contacts.instagram}
-                website={contacts.website}
+                whatsapp={contacts?.whatsApp} // Adicionado '?' para segurança, caso contacts seja null/undefined
+                phone={contacts?.phone}
+                email={contacts?.email}
+                instagram={contacts?.instagram}
+                website={contacts?.website}
               />
             </Popup>
           </Marker>
         );
       })}
-      <ShowPlaceFormOnClick setFormPosition={setFormPosition}/>
+      <ShowPlaceFormOnClick setFormPosition={setFormPosition} />
 
       {formPosition && (
         <Marker
           position={formPosition}
           icon={
             new L.Icon({
-              iconUrl:"https://cdn-icons-png.flaticon.com/512/2776/2776000.png",
-              iconSize:[40, 40],
+              iconUrl: "https://cdn-icons-png.flaticon.com/512/2776/2776000.png",
+              iconSize: [40, 40],
+              iconAnchor: [20, 40], 
+              popupAnchor: [0, -40],
             })
           }
         >
           <Popup closeButton={false}>
             <div onClick={(e) => e.stopPropagation()}>
               <RegisterPlace
-              lat={formPosition[0]} 
-              lng={formPosition[1]}/>
+                lat={formPosition[0]}
+                lng={formPosition[1]}
+              />
             </div>
           </Popup>
         </Marker>
-      )}  
+      )}
     </MapContainer>
   );
 }
