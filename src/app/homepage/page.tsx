@@ -4,10 +4,11 @@ import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import Filter from "@/components/Filter";
-import { useState } from "react";
-import { places, MapInfo, PointsType } from "@/data/place";
+import { useEffect, useState } from "react";
+import { MapInfo, PointsType } from "@/data/place";
 import MapLoading from "@/components/MapLoading";
 import { Search } from "lucide-react";
+import { getPlaces } from "@/services/placeService";
 
 
 const Map = dynamic(() => import("@/components/Map"), {
@@ -17,8 +18,17 @@ const Map = dynamic(() => import("@/components/Map"), {
 
 export default function Home() {
   
+  const [places, setPlace] = useState<MapInfo[]>([]);
   const [tipoSelecionado, setTipoSelecionado] = useState<PointsType[]>([]);
   const [praiasSelecionadas, setPraiasSelecionadas] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      const data = await getPlaces();
+      setPlace(data)
+    }
+    fetchPlaces()
+  }, [])
 
   const toggleFiltro = <T,>(item: T, lista: T[], setLista: (nova: T[]) => void) => {
     setLista(
