@@ -16,6 +16,8 @@ const Map = dynamic(() => import("@/components/Map"), {
 
 export default function Home() {
   const [locaisFiltrados, setLocaisFiltrados] = useState<MapInfo[]>([]);
+  const [tipoSelecionado, setTipoSelecionado] = useState<PointsType[]>([]);
+  const [praiasSelecionadas, setPraiasSelecionadas] = useState<string[]>([])
   /* const [tipoSelecionado, setTipoSelecionado] = useState<PointsType[]>([]);
   const [praiasSelecionadas, setPraiasSelecionadas] = useState<string[]>([]);
 
@@ -61,10 +63,16 @@ export default function Home() {
       ]}
       onFilterChange={setLocaisFiltrados}
       />
-      <div className="grid grid-cols-1 md:grid-cols-[375px_1fr]">
+      <div className="grid grid-cols-1 lg:grid-cols-[375px_1fr]">
 
-        <div className="hidden p-4 md:flex flex-col bg-[#98A2B2]">
-          <Filter onFilterChange={setLocaisFiltrados}/>
+        <div className="hidden p-4 lg:flex flex-col bg-[#98A2B2]">
+          <Filter 
+            tipoSelecionado={tipoSelecionado}
+            setTipoSelecionado={setTipoSelecionado}
+            praiasSelecionadas={praiasSelecionadas}
+            setPraiasSelecionadas={setPraiasSelecionadas}
+            onFilterChange={(filtrados) => setLocaisFiltrados(filtrados)}
+          />
         </div>
 
         <div className="h-[calc(100vh-96px)] 
