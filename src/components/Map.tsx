@@ -37,6 +37,7 @@ const mapIcon: Record<PointsType, L.Icon> = {
   }),
 };
 
+export default function Map({ places }: { places: MapInfo[] }) {
 type positionProps = {
   setFormPosition: (position: [number,number]) => void
 }
