@@ -1,12 +1,14 @@
 "use client";
 
-import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, Popup, useMapEvent } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import L from "leaflet";
 import { PopupMap } from "./PopupMap";
 import { MapInfo, PointsType } from "@/data/place";
+import { useState } from "react";
+import RegisterPlace from "./RegisterPlace";
 
 const mapIcon: Record<PointsType, L.Icon> = {
   Restaurante: new L.Icon({
@@ -35,7 +37,24 @@ const mapIcon: Record<PointsType, L.Icon> = {
   }),
 };
 
+type positionProps = {
+  setFormPosition: (position: [number,number]) => void
+}
+
+function ShowPlaceFormOnClick({setFormPosition}: positionProps) {
+  useMapEvent("click", (e)=>{
+
+    const position: [number, number] = [e.latlng.lat, e.latlng.lng]
+     setFormPosition(position)
+  })
+
+  return null;
+}
+
 export default function Map({ places }: { places: MapInfo[] }) {
+  
+  const [formPosition, setFormPosition] = useState<[number,number] | null>(null)
+  
   return (
     <MapContainer
       center={[-3.036872, -39.668872]}
@@ -54,7 +73,7 @@ export default function Map({ places }: { places: MapInfo[] }) {
           position={[parseFloat(info.latitude), parseFloat(info.longitude)]}
           icon={mapIcon[info.typePlace]}
         >
-          <Popup closeButton={false} keepInView={true}>
+          <Popup closeButton={false} keepInView={false}>
             <PopupMap
               images={[
                 "https://www.villamango.com.br/wp-content/uploads/2024/09/2.jpg",
@@ -71,6 +90,28 @@ export default function Map({ places }: { places: MapInfo[] }) {
           </Popup>
         </Marker>
       ))}
+
+      <ShowPlaceFormOnClick setFormPosition={setFormPosition}/>
+
+      {formPosition && (
+        <Marker
+          position={formPosition}
+          icon={
+            new L.Icon({
+              iconUrl:"https://cdn-icons-png.flaticon.com/512/684/684908.png",
+              iconSize:[40, 40],
+            })
+          }
+        >
+          <Popup closeButton={false}>
+            <div onClick={(e) => e.stopPropagation()}>
+              <RegisterPlace
+              lat={formPosition[0]} 
+              lng={formPosition[1]}/>
+            </div>
+          </Popup>
+        </Marker>
+      )}  
     </MapContainer>
   );
 }
