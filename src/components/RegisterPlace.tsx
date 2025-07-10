@@ -7,7 +7,7 @@ import { ErrorMessage } from "@hookform/error-message"
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { FormPlaces } from "@/data/place"
-import { postPlaces } from "@/services/placesService"
+import { postPlaces } from "@/services/placeService"
 
 type PropsLatLng = {
   lat: number;
@@ -74,7 +74,7 @@ async function onSubmit(data: FormPlaces) {
   formData.append('latitude', data.latitude.toString());
   formData.append('longitude', data.longitude.toString());
   formData.append('praia', data.praia);
-  formData.append('contacts', data.contacts);
+  formData.append('contacts', JSON.stringify(data.contacts));
 
   images.forEach(file => {
     formData.append('imagens', file);
