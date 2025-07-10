@@ -1,138 +1,65 @@
 "use client";
 
-import { useState } from "react";
-import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, Popup, useMapEvent } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import L from "leaflet";
 import { PopupMap } from "./PopupMap";
-import L from 'leaflet';
-
-
-type MapInfo = {
-  id: string
-  name: string
-  typePlace: PointsType
-  latitude: number
-  longitude: number
-  whatsapp: string
-  email?: string
-  phone?: string
-  instagram?: string
-  website?: string
-};
-
-type PointsType = 'Restaurante' | 'Pousada' | 'Hotel' | 'Bar' | 'PontoTuristico';
+import { MapInfo, PointsType } from "@/data/place";
+import { useState } from "react";
+import RegisterPlace from "./RegisterPlace";
 
 const mapIcon: Record<PointsType, L.Icon> = {
   Restaurante: new L.Icon({
-    iconUrl: '/mapIcons/restaurant.png',
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/948/948036.png",
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   }),
   Pousada: new L.Icon({
-    iconUrl: '/mapIcons/guesthouse.png',
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/6254/6254153.png",
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   }),
   Hotel: new L.Icon({
-    iconUrl: '/mapIcons/hotel.png',
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/3009/3009489.png",
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   }),
   Bar: new L.Icon({
-    iconUrl: '/mapIcons/bar.png',
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/2564/2564169.png",
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   }),
-  PontoTuristico: new L.Icon({
-    iconUrl: '/mapIcons/turisticspot.png',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -40],
-  })
 };
 
-const places:MapInfo[] = [
-  {
-    id: "1",
-    name: "Pousada Curva dos Ventos",
-    typePlace: "Pousada",
-    latitude: -3.0370,
-    longitude: -39.6675,
-    whatsapp: "(88) 98140-3075",
-    website: "https://curvadosventos.com.br",
-    instagram: "@curvadosventos"
-  },
-  {
-    id: "2",
-    name: "Casa de Pedra Icaraizinho",
-    typePlace: "Hotel",
-    latitude: -3.0390,
-    longitude: -39.6660,
-    whatsapp: "(85) 99120-5550"
-  },
-  {
-    id: "3",
-    name: "Restaurante Hibisco",
-    typePlace: "Restaurante",
-    latitude: -3.0366,
-    longitude: -39.6673,
-    whatsapp: "(85) 99999-1007",
-    instagram: "@restaurantehibisco"
-  },
-  {
-    id: "7",
-    name: "Pousada Canaã Icaraizinho",
-    typePlace: "Pousada",
-    latitude: -3.0380,
-    longitude: -39.6655,
-    whatsapp: "(85) 99999-1013",
-    website: "https://pousadacanaa.com.br"
-  },
-  {
-    id: "9",
-    name: "Praia de Icaraí (Ponto Turístico)",
-    typePlace: "PontoTuristico",
-    latitude: -3.0369,
-    longitude: -39.6675,
-    whatsapp: ""
-  },
-  {
-    id: "10",
-    name: "Hotel Vila do Sol",
-    typePlace: "Hotel",
-    latitude: -3.0348,
-    longitude: -39.6690,
-    whatsapp: "(85) 99999-1015"
-  },
-  {
-    id: "11",
-    name: "Bar e Restaurante Pé na Areia",
-    typePlace: "Bar",
-    latitude: -3.0402,
-    longitude: -39.6655,
-    whatsapp: "(85) 98888-7777",
-    email: "contato@penaareia.com.br",
-    phone: "(85) 3344-5566",
-    instagram: "@penaareia",
-    website: "https://penaareia.com.br"
-  }
-];
+type positionProps = {
+  setFormPosition: (position: [number,number]) => void
+}
 
+function ShowPlaceFormOnClick({setFormPosition}: positionProps) {
+  useMapEvent("click", (e)=>{
 
-export default function Map() {
+    const position: [number, number] = [e.latlng.lat, e.latlng.lng]
+     setFormPosition(position)
+  })
 
-  const [mapInfo, setMapInfo] = useState(places);
+  return null;
+}
 
+export default function Map({ places }: { places: MapInfo[] }) {
+  
+  const [formPosition, setFormPosition] = useState<[number,number] | null>(null)
+  
   return (
     <MapContainer
       center={[-3.036872, -39.668872]}
-      zoom={13}
+      zoom={10}
+      minZoom={13}
       scrollWheelZoom={true}
       className="h-full w-full"
     >
@@ -140,20 +67,51 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
+      
+      {places.map((info) => {
+        const contacts = typeof info.contacts === 'string' ? JSON.parse(info.contacts) : info.contacts;
 
-      {mapInfo.map((info) =>(
-        <Marker key={info.id} position={[info.latitude, info.longitude]} icon={mapIcon[info.typePlace]}>
-          <Popup>
-            <PopupMap 
-            name={info.name} 
-            whatsapp={info.whatsapp} 
-            phone={info.phone} 
-            email={info.email} 
-            instagram={info.instagram} 
-            website={info.website}/>
+        return (
+          <Marker
+            key={info.id}
+            position={[parseFloat(info.latitude), parseFloat(info.longitude)]}
+            icon={mapIcon[info.typePlace]}
+          >
+            <Popup closeButton={false} keepInView={true}>
+              <PopupMap
+                images={info.imagens}
+                name={info.name}
+                whatsapp={contacts.whatsApp}
+                phone={contacts.phone}
+                email={contacts.email}
+                instagram={contacts.instagram}
+                website={contacts.website}
+              />
+            </Popup>
+          </Marker>
+        );
+      })}
+      <ShowPlaceFormOnClick setFormPosition={setFormPosition}/>
+
+      {formPosition && (
+        <Marker
+          position={formPosition}
+          icon={
+            new L.Icon({
+              iconUrl:"https://cdn-icons-png.flaticon.com/512/2776/2776000.png",
+              iconSize:[40, 40],
+            })
+          }
+        >
+          <Popup closeButton={false}>
+            <div onClick={(e) => e.stopPropagation()}>
+              <RegisterPlace
+              lat={formPosition[0]} 
+              lng={formPosition[1]}/>
+            </div>
           </Popup>
         </Marker>
-      ))}
+      )}  
     </MapContainer>
   );
 }

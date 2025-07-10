@@ -6,9 +6,52 @@
   font-family: Poppins;
   src: url("../assets/fonts/Poppins-Regular.ttf");
 }
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* ====================== */
+/*    LEAFLET POPUP FIX   */
+/* ====================== */
+.leaflet-popup-content-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+
+  min-width: 420px !important;
+  max-width: 100vw !important;
+  width: auto !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+}
+
+.leaflet-popup-tip {
+  background: transparent !important;
+}
+
+.leaflet-popup-close-button {
+  font-size: 1.25rem !important;
+  top: 1.5rem !important;
+  right: -4.5rem !important;
+  transition: color 0.2s !important;
+}
+
+@media (max-width: 480px) {
+  .leaflet-popup-content-wrapper {
+    min-width: 95vw !important;
+  }
+}
+
+/* ====================== */
+/*      ANIMAÇÕES         */
+/* ====================== */
 @keyframes slide-down {
   from {
     opacity: 0;
@@ -43,27 +86,12 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
-.leaflet-popup-content-wrapper {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-}
-
-.leaflet-popup-tip {
-  background: transparent !important;
-}
-
-.leaflet-popup-close-button {
-  font-size: 1.25rem !important;
-  top: 1.5rem !important;
-  right: -4.5rem !important;
-  transition: color 0.2s !important;
-}
+/* ====================== */
+/*     THEME VARIABLES    */
+/* ====================== */
 
 @custom-variant dark (&:is(.dark *));
 
